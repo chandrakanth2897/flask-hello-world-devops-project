@@ -31,12 +31,5 @@ pipeline {
                 sh 'docker push $DOCKER_HUB_REPO:latest'
             }
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-                sh 'minikube kubectl -- apply -f deployment.yaml'
-                sh 'minikube kubectl -- apply -f service.yaml'
-            }
-        }
     }
 }
