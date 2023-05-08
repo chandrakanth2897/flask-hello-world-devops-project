@@ -1,5 +1,5 @@
 pipeline {
-   agent any
+   agent jenkins slave
   
    environment {
        DOCKER_HUB_REPO = "chandrakanth/flask-hello-world"
