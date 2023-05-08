@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_HUB_REPO = "shivammitra/flask-hello-world"
+        DOCKER_HUB_REPO = "chandrakanth2897/flask-hello-world"
         CONTAINER_NAME = "flask-hello-world"
         DOCKERHUB_CREDENTIALS=credentials('dockerhub-credentials')
     }
@@ -13,22 +13,22 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'docker image build -t $DOCKER_HUB_REPO:latest .'
+                sh 'sudo docker image build -t $DOCKER_HUB_REPO:latest .'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh 'docker stop $CONTAINER_NAME || true'
-                sh 'docker rm $CONTAINER_NAME || true'
-                sh 'docker run --name $CONTAINER_NAME $DOCKER_HUB_REPO /bin/bash -c "pytest test.py && flake8"'
+                sh 'sudo docker stop $CONTAINER_NAME || true'
+                sh 'sudo docker rm $CONTAINER_NAME || true'
+                sh 'sudo docker run --name $CONTAINER_NAME $DOCKER_HUB_REPO /bin/bash -c "pytest test.py && flake8"'
             }
         }
         stage('Push') {
             steps {
                 echo 'Pushing image..'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push $DOCKER_HUB_REPO:latest'
+                sh 'sudo docker push $DOCKER_HUB_REPO:latest'
             }
         }
         stage('Deploy') {
